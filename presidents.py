@@ -1,4 +1,4 @@
-from flask import abort
+from flask import abort, make_response
 
 PRESIDENTS = {
     1: {
@@ -80,3 +80,22 @@ def read_one_by_full_name(full_name):
             return president
     
     abort(404, f"President: {full_name} not found")
+
+def update(number, president):
+    if number in PRESIDENTS:
+        PRESIDENTS[number]["fname"] = president.get("fname", PRESIDENTS[number]["fname"])
+        PRESIDENTS[number]["lname"] = president.get("lname", PRESIDENTS[number]["lname"])
+        PRESIDENTS[number]["number"] = president.get("number", PRESIDENTS[number]["number"])
+        PRESIDENTS[number]["term_start"] = president.get("term_start", PRESIDENTS[number]["term_start"])
+        PRESIDENTS[number]["term_end"] = president.get("term_end", PRESIDENTS[number]["term_end"])
+
+        return PRESIDENTS[number]
+    else:
+        abort(404, f"President #{number} not found")
+
+def delete(number):
+    if number in PRESIDENTS:
+        del PRESIDENTS[number]
+        return make_response(f"President #{number} successfully deleted", 200)
+    else:
+        abort(404, f"President #{number} not found")

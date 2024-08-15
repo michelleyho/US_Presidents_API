@@ -79,6 +79,32 @@ paths:
             responses:
                 "200":
                     description: "Successfully read President entry"
+        put:
+            tags:
+                - President
+            operationId: "presidents.update"
+            summary: "Update a President entry"
+            parameters: 
+                - $ref: "#/components/parameters/number"
+            responses:
+                "200":
+                    description: "Successfully updated person"
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            x-body-name: "president"
+                            $ref: "#/components/schemas/President"
+        delete:
+            tags:
+                - President
+            operationId: "presidents.delete"
+            summary: "Delete a President Entry"
+            parameters:
+                - $ref: "#/components/parameters/number"
+            responses:
+                "204":
+                    description: "Successfully deleted President entry"
     /presidents/{full_name}:
         get:
             operationId: "presidents.read_one_by_full_name"

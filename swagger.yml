@@ -1,0 +1,93 @@
+openapi: 3.0.0
+
+info:
+    title: "US Presidents REST API"
+    description: "An API about US Presidents"
+    version: "1.0.0"
+
+servers:
+    - url: "/api"
+
+components:
+    schemas:
+        President:
+            type: "object"
+            required:
+                - number
+                - lname
+            properties:
+                number:
+                    type: "number"
+                fname:
+                    type: "string"
+                lname:
+                    type: "string"
+                term_start: 
+                    type: "integer"
+                term_end:
+                    type: "integer"
+    parameters: 
+        number:
+            name: "number"
+            description: "President number to get"
+            in: path
+            required: True
+            schema:
+                type: "integer"
+        full_name:
+            name: "full_name"
+            description: "President to get by full name"
+            in: path
+            required: True
+            schema:
+                type: "string"
+
+paths:
+    /presidents:
+        get:
+            operationId: "presidents.read_all"
+            tags:
+                - "Presidents"
+            summary: "Read the list of US Presidents currently in database"
+            responses:
+                "200":
+                    description: "Successfully read Presidents list"
+        post:
+            operationId: "presidents.create"
+            tags:
+                - President
+            summary: "Create a President"
+            requestBody:
+                description: "President entry to create"
+                required: True
+                content: 
+                    application/json:
+                        schema:
+                            x-body-name: "president"
+                            $ref: "#/components/schemas/President"
+            responses:
+                "201":
+                    description: "Successfully created a President entry."
+    /presidents/{number}:
+        get:
+            operationId: "presidents.read_one"
+            tags:
+                - President
+            summary: "Read one President entry"
+            parameters:
+                - $ref: "#/components/parameters/number"
+            responses:
+                "200":
+                    description: "Successfully read President entry"
+    /presidents/{full_name}:
+        get:
+            operationId: "presidents.read_one_by_full_name"
+            tags:
+                - President
+            summary: "Read one President entry by full name"
+            parameters:
+                - $ref: "#/components/parameters/full_name"
+            responses:
+                "200":
+                    description: "Successfully read President entry"
+

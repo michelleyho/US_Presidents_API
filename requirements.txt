@@ -6,3 +6,4 @@ wtforms
 email_validator
 pyyaml
 connexion[swagger-ui]==2.14.1
+flask-marshmallow[sqlalchemy]==0.14.0

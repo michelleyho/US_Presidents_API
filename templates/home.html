@@ -8,7 +8,12 @@
 </head>
 <body>
     <h1>
-        Hello, World!
+        Presidents of the United States of America
     </h1>
+    <ul>
+        {% for president in presidents|sort(attribute="number") %}
+        #{{president.number}} - {{president.fname}} {{president.lname}} <br>
+        {% endfor %}
+    </ul>
 </body>
 </html>

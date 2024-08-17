@@ -130,6 +130,8 @@ paths:
             tags:
                 - Notes
             summary: "Create a note with associated President"
+            parameters:
+                - $ref: "#/components/parameters/number"
             requestBody:
                 description: "Note to create"
                 required: True

@@ -34,8 +34,9 @@ def delete(note_id):
         abort(404, f"Note with ID: {note_id} not found")
 
 def create(note):
-    president_id = note.get("president_id")
-    president = President.query.get(president_id)
+    president_num = note.get("president_num")
+    president = President.query.filter(President.number == president_num).one_or_none()
+    #president = President.query.get(president_id)
 
     if president:
         new_note = note_schema.load(note, session=db.session)
@@ -44,4 +45,4 @@ def create(note):
 
         return note_schema.dump(new_note), 201
     else:
-        abort(404, f"President with ID: {president_id} not found")
+        abort(404, f"President #:{president_id} not found")

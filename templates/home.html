@@ -10,10 +10,13 @@
     <h1>
         Presidents of the United States of America
     </h1>
-    <ul>
-        {% for president in presidents|sort(attribute="number") %}
-        #{{president.number}} - {{president.fname}} {{president.lname}} <br>
+    {% for president in presidents|sort(attribute="number") %}
+        <h3> #{{president.number}} - {{president.fname}} {{president.lname}} </h3>
+        <ul>
+        {% for note in president.notes %}
+            <li> {{ note.content }} </li>
         {% endfor %}
-    </ul>
+        </ul>
+    {% endfor %}
 </body>
 </html>

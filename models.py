@@ -1,6 +1,20 @@
 # models.py
 
 from config import db, ma
+from marshmallow_sqlalchemy import fields
+
+class Note(db.Model):
+    __tablename__ = "note"
+    id = db.Column(db.Integer, primary_key=True)
+    president_id = db.Column(db.Integer, db.ForeignKey("president.id"))
+    content = db.Column(db.String, nullable=False)
+
+class NoteSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Note
+        load_instance = True
+        sqla_session = db.session
+        include_fk = True # include foreign key
 
 class President(db.Model):
     __tablename__ = "president"
@@ -10,14 +24,17 @@ class President(db.Model):
     number = db.Column(db.Integer, unique = True)
     term_start = db.Column(db.Integer)
     term_end = db.Column(db.Integer)
-
+    notes = db.relationship(Note, backref="president", cascade="all, delete, delete-orphan", single_parent=True)
 
 class PresidentSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = President
         load_instance = True
         sqla_session = db.session
+        include_relationships = True
+    notes = fields.Nested(NoteSchema, many=True)
 
 president_schema = PresidentSchema()
 presidents_schema = PresidentSchema(many=True)
+note_schema = NoteSchema()
 

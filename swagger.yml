@@ -130,8 +130,6 @@ paths:
             tags:
                 - Notes
             summary: "Create a note with associated President"
-            parameters:
-                - $ref: "#/components/parameters/number"
             requestBody:
                 description: "Note to create"
                 required: True
@@ -141,7 +139,7 @@ paths:
                             x-body-name: "note"
                             type: "object"
                             properties:
-                                president_id:
+                                president_num:
                                     type: "integer"
                                 content:
                                     type: "string"

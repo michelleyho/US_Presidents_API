@@ -14,7 +14,7 @@
         <h3> #{{president.number}} - {{president.fname}} {{president.lname}} </h3>
         <ul>
         {% for note in president.notes %}
-            <li> {{ note.content }} </li>
+            <li> {{ note.content }} (note_id:{{note.id}})</li>
         {% endfor %}
         </ul>
     {% endfor %}

@@ -5,10 +5,9 @@ from models import President, president_schema, presidents_schema
 def read_all():
     presidents = President.query.all()
     return presidents_schema.dump(presidents)
-    #return list(PRESIDENTS.values())
 
 def read_one(number):
-    president = President.query.filter(President.number == number).one_or_none()
+    president = President.query.get(number)
     
     if president is not None:
         return president_schema.dump(president)
@@ -26,7 +25,7 @@ def read_one_by_full_name(full_name):
 
 def create(president):
     number = president.get("number")
-    existing_president = President.query.filter(President.number == number).one_or_none()
+    existing_president = President.query.get(number)
 
     if existing_president is None:
         new_president = president_schema.load(president, session=db.session)
@@ -39,11 +38,14 @@ def create(president):
 
 
 def update(number, president):
-    existing_president = President.query.filter(President.number == number).one_or_none()
+    existing_president = President.query.get(number)
     if existing_president:
         update_president = president_schema.load(president, session=db.session)
         existing_president.fname = update_president.fname
         existing_president.lname = update_president.lname
+        president_with_new_number = President.query.get(update_president.number)
+        if president_with_new_number:
+            abort(404, f"President #{update_president.number} already exists. Please check")
         existing_president.number = update_president.number
         existing_president.term_start = update_president.term_start
         existing_president.term_end  = update_president.term_end
@@ -57,7 +59,7 @@ def update(number, president):
         abort(404, f"President #{number} not found")
 
 def delete(number):
-    existing_president = President.query.filter(President.number == number).one_or_none()
+    existing_president = President.query.get(number)
 
     if existing_president:
         db.session.delete(existing_president)

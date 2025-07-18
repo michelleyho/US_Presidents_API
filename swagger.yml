@@ -68,10 +68,10 @@ paths:
             requestBody:
                 description: "President entry to create"
                 required: True
+                x-body-name: president
                 content: 
                     application/json:
                         schema:
-                            x-body-name: "president"
                             $ref: "#/components/schemas/President"
             responses:
                 "201":
@@ -133,10 +133,10 @@ paths:
             requestBody:
                 description: "Note to create"
                 required: True
+                x-body-name: "note"
                 content:
                     application/json:
                         schema:
-                            x-body-name: "note"
                             type: "object"
                             properties:
                                 president_num:

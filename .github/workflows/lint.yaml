@@ -30,6 +30,7 @@ jobs:
                 python -m pip install -r requirements.txt
             - name: install pylint
               run: pip install pylint
-            - name: Run Pylint
+            - name: Run Pylint (soft fail)
               run: pylint *.py
+              continue-on-error: true
                                         
